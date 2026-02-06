@@ -127,6 +127,38 @@ export class PacManGame implements IGame {
 
     private initControls() {
         window.addEventListener('keydown', this.handleKeyDown);
+
+        // Swipe controls
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+            if (this.gameOver) return;
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // Horizontal
+                if (Math.abs(dx) > 30) { // Threshold
+                    if (dx > 0) this.pacman.setNextDirection(Direction.RIGHT);
+                    else this.pacman.setNextDirection(Direction.LEFT);
+                }
+            } else {
+                // Vertical
+                if (Math.abs(dy) > 30) {
+                    if (dy > 0) this.pacman.setNextDirection(Direction.DOWN);
+                    else this.pacman.setNextDirection(Direction.UP);
+                }
+            }
+        }, { passive: false });
     }
 
     private handleKeyDown = (e: KeyboardEvent) => {

@@ -49,7 +49,9 @@ export class Maze {
     isWall(x: number, y: number): boolean {
         // Bounds check
         if (y < 0 || y >= this.grid.length || x < 0 || x >= this.grid[0].length) {
-            return false; // Out of bounds is not a wall (warp tunnel or void)
+            // Only allow warp tunnel at row 14
+            if (y === 14) return false;
+            return true; // Treat outer void as wall
         }
         return this.grid[y][x] === 1;
     }
