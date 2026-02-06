@@ -58,6 +58,9 @@ export class Arkanoid implements IGame {
             height: STAGE_HEIGHT,
             antialias: true,
         });
+
+        // Prevent default browser touch actions (scrolling/zooming)
+        this.app.canvas.style.touchAction = 'none';
         appContainer.appendChild(this.app.canvas);
 
         this.app.stage.addChild(this.gameContainer);
