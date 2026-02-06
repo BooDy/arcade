@@ -2,6 +2,7 @@
 import type { IGame } from './interfaces/GameInterface';
 import { TetrisGame } from './games/tetris/TetrisGame';
 import { PacManGame } from './games/pacman/PacManGame';
+import { Arkanoid } from './games/arkanoid/Arkanoid';
 
 export class Hub {
     private appContainer: HTMLElement;
@@ -47,6 +48,16 @@ export class Hub {
                         <div style="font-size: 4rem; margin-bottom: 1rem;">C</div>
                         <h3>PAC-MAN</h3>
                     </div>
+
+                    <div class="game-card" data-game="arkanoid" style="
+                        width: 200px; height: 300px; background: rgba(255,255,255,0.05);
+                        border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
+                        display: flex; flex-direction: column; align-items: center; justify-content: center;
+                        cursor: pointer; transition: all 0.3s ease;
+                    ">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">A</div>
+                        <h3>ARKANOID</h3>
+                    </div>
                 </div>
             </div>
         `;
@@ -85,6 +96,8 @@ export class Hub {
             this.currentGame = new TetrisGame();
         } else if (type === 'pacman') {
             this.currentGame = new PacManGame();
+        } else if (type === 'arkanoid') {
+            this.currentGame = new Arkanoid();
         }
 
         if (this.currentGame) {
@@ -96,6 +109,7 @@ export class Hub {
 
     private createBackButton() {
         let backBtn = document.getElementById('hub-back-btn');
+
         if (!backBtn) {
             backBtn = document.createElement('button');
             backBtn.id = 'hub-back-btn';

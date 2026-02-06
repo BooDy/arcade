@@ -1,5 +1,4 @@
 
-import { Ticker } from 'pixi.js';
 import type { IGame } from '../../interfaces/GameInterface';
 import { Maze } from './Maze';
 import { PacMan } from './PacMan';
@@ -63,12 +62,12 @@ export class PacManGame implements IGame {
 
     start(): void {
         this.running = true;
-        Ticker.shared.add(this.update, this);
+        this.renderer.app.ticker.add(this.update, this);
     }
 
     stop(): void {
         this.running = false;
-        Ticker.shared.remove(this.update, this);
+        this.renderer.app.ticker.remove(this.update, this);
         this.renderer.destroy();
         window.removeEventListener('keydown', this.handleKeyDown);
 
