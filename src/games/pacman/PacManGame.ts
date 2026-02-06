@@ -61,8 +61,18 @@ export class PacManGame implements IGame {
     }
 
     start(): void {
+        console.log('PacManGame.start called');
         this.running = true;
         this.renderer.app.ticker.add(this.update, this);
+    }
+
+    // ...
+
+    update() {
+        // console.log('PacManGame.update running', this.running, this.gameOver);
+        if (!this.running || this.gameOver) return;
+
+        // ...
     }
 
     stop(): void {
@@ -80,6 +90,7 @@ export class PacManGame implements IGame {
     }
 
     update() {
+        // console.log('PacManGame.update running', this.running, this.gameOver);
         if (!this.running || this.gameOver) return;
 
         // Update PacMan
@@ -88,13 +99,10 @@ export class PacManGame implements IGame {
             this.score += points;
             const scoreEl = document.getElementById('pacman-score');
             if (scoreEl) scoreEl.innerText = `SCORE: ${this.score}`;
-
-            // Check win condition? (All pellets eaten)
         }
 
         // Update Ghosts
         for (const ghost of this.ghosts) {
-            // Simple logic: Target PacMan
             ghost.update(this.pacman.x, this.pacman.y);
 
             // Collision Check
@@ -104,19 +112,12 @@ export class PacManGame implements IGame {
             }
         }
 
-        // Render
-        // We clear entity layer in render(pacman) if we modify Renderer to do so.
-        // Let's modify Renderer to have one method `renderGame(pacman, ghosts)` or similar.
-        // Or just call them sequentially and `render` clears.
-        // Let's assume `renderer.render` clears.
-
         this.renderer.render(this.pacman);
-        this.renderer.renderGhosts(this.ghosts); // This draws ON TOP of the cleared canvas from render(pacman) check Renderer.ts logic.
+        this.renderer.renderGhosts(this.ghosts);
     }
 
     private handleGameOver() {
         this.gameOver = true;
-        // Show Game Over UI
         const go = document.createElement('div');
         go.id = 'pacman-gameover';
         go.style.cssText = `
@@ -127,19 +128,17 @@ export class PacManGame implements IGame {
         `;
         go.innerHTML = `GAME OVER<br><span style="font-size:20px; color:white">Tap to Exit</span>`;
         go.addEventListener('click', () => {
-            // For now just stop? Or how to exit to Hub?
-            // Hub handles exit via back button. 
-            // We can just leave it static.
+            // No action needed for now
         });
         document.body.appendChild(go);
     }
 
     private initControls() {
         window.addEventListener('keydown', this.handleKeyDown);
-        // Add swipe support...
     }
 
     private handleKeyDown = (e: KeyboardEvent) => {
+        console.log('Key pressed:', e.code);
         if (this.gameOver) return;
         switch (e.code) {
             case 'ArrowUp': this.pacman.setNextDirection(Direction.UP); break;

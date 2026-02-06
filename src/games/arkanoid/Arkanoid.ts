@@ -70,6 +70,10 @@ export class Arkanoid implements IGame {
         window.addEventListener('keyup', this.onKeyUp);
         window.addEventListener('resize', this.onResize);
 
+        // Touch handling
+        this.app.canvas.addEventListener('touchmove', this.onTouchMove, { passive: false });
+        this.app.canvas.addEventListener('touchstart', this.onTouchMove, { passive: false });
+
         // Setup Pause Button
         const pauseBtn = document.getElementById('pause-btn');
         if (pauseBtn) {
@@ -172,6 +176,16 @@ export class Arkanoid implements IGame {
 
     private onKeyUp = (e: KeyboardEvent) => {
         this.keys[e.code] = false;
+    }
+
+    private onTouchMove = (e: TouchEvent) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = this.app.canvas.getBoundingClientRect();
+        const scaleX = STAGE_WIDTH / rect.width;
+        const touchX = (touch.clientX - rect.left) * scaleX;
+
+        this.paddle.x = Math.max(PADDLE_WIDTH / 2, Math.min(STAGE_WIDTH - PADDLE_WIDTH / 2, touchX));
     }
 
     private onResize = () => {

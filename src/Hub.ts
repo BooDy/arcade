@@ -21,10 +21,11 @@ export class Hub {
     private renderHub() {
         this.hubContainer.innerHTML = `
             <div style="
-                position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+                position: absolute; top: 0; left: 0; width: 100vw; min-height: 100vh;
                 background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
                 display: flex; flex-direction: column; align-items: center; justify-content: center;
                 color: white; font-family: 'Inter', sans-serif; z-index: 2000;
+                overflow-y: auto; padding: 20px 0;
             " id="hub-menu">
                 <h1 style="font-size: 3rem; margin-bottom: 2rem; text-shadow: 0 0 10px #00d4ff;">ARCADE HUB</h1>
                 
