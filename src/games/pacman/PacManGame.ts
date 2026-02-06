@@ -66,14 +66,6 @@ export class PacManGame implements IGame {
         this.renderer.app.ticker.add(this.update, this);
     }
 
-    // ...
-
-    update() {
-        // console.log('PacManGame.update running', this.running, this.gameOver);
-        if (!this.running || this.gameOver) return;
-
-        // ...
-    }
 
     stop(): void {
         this.running = false;
